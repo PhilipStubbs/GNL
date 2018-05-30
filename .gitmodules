@@ -1,0 +1,3 @@
+[submodule "project/libft"]
+	path = project/libft
+	url = https://github.com/PhilipStubbs/libft.git
