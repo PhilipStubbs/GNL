@@ -28,21 +28,28 @@ int    main(int argc, char **argv)
 	int byter;
 	int i;
 	static char	*ret;
+	static int j;
+	static int e;
 
 	i = 0;
+	j = 0;
 	ret = (char*)ft_memalloc(60000 * sizeof(char));
 	fd = open("test.txt", O_RDONLY);
-	while ((byter = read(fd, buff, 40)) > 0)
+	while ((byter = read(fd, buff, 10)) > 0)
 	{	
+		i +=byter;
 		ft_strcat(ret, buff);
-		if (ft_strchr(buff, '\n'))
-		{
-			break;
-		}		
+		// if (ft_strchr(buff, '\n'))
+		// {
+		// 	break;
+		// }		
 	}
+		// (*ft_strchr(ret, '\n')) = '\0';
+		while (ret[j] != '\n')
+			j++;
 		(*ft_strchr(ret, '\n')) = '\0';
-		printf("%d, [%s]\n" ,byter,ret);
-		
+		printf("%d, [%s]\n" ,i,ret);
+
 
 	return (0);
 }
