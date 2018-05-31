@@ -10,17 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_writearr(char *s, const int fd, char **line)
-{
-	static int	i;
-}
+#include "get_next_line.h"
 
-void	ft_0(char **line)
-{
-	
-}
+// int	get_next_line(const int fd, char **line)
+// {
+// 	int ret;
+// 	char buf[(ret = read(fd, buf, BUFF_SIZ)) > 0];
+// }
 
-int	get_next_line(const int fd, char **line)
+
+
+int    main(int argc, char **argv)
 {
 
+	char buff[60000];
+	int fd;
+	int byter;
+	int i;
+	static char	*ret;
+
+	i = 0;
+	ret = (char*)ft_memalloc(60000 * sizeof(char));
+	fd = open("test.txt", O_RDONLY);
+	while ((byter = read(fd, buff, 40)) > 0)
+	{	
+		ft_strcat(ret, buff);
+		if (ft_strchr(buff, '\n'))
+		{
+			break;
+		}		
+	}
+		(*ft_strchr(ret, '\n')) = '\0';
+		printf("%d, [%s]\n" ,byter,ret);
+		
+
+	return (0);
 }
