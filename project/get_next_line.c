@@ -25,36 +25,45 @@
 int    ft_GNLProto()
 {
 
-	char buff[BUFF_SIZE +1];
-	static int fd;
-	int byter;
-	int i;
+	char buff[BUFF_SIZE + 1];
+	static g_list *node;
+
+	int 	byter;
+	int 	i;
 	char	*ret;
-	// static int j;
-	// static int e;
+	int		t;
 
 	i = 0;
+	t = 0;
 	ft_bzero(buff, BUFF_SIZE + 1);
-	ret = (char*)ft_memalloc(100 * sizeof(char));
+	ret = (char*)ft_memalloc((100 + BUFF_SIZE) * sizeof(char));
+
 	if(!ret)
 		return(0);
-	if(!fd)
-		fd = open("test.txt", O_RDONLY);
-	while ((byter = read(fd, buff, BUFF_SIZE )) > 0)
+	if(!node)
+		node = (g_list*)ft_memalloc(sizeof(g_list));
+	if(!node)
+		return(0);
+	if(!node->fd)
+		node->fd = open("test.txt", O_RDONLY);
+
+	printf("fd : %d\n", node->fd );
+	while ((byter = read(node->fd , buff, BUFF_SIZE )) > 0)
 	{	
-		write(1, "x" ,1 );
-		i +=byter;
+		t +=byter;
 		ft_strcat(ret, buff);
-		if (ft_strchr(buff, '\n' || ft_strchr(buff, EOF ))
+		if (ft_strchr(buff, '\n'))
 		{
-			write(1, "e" ,1 );
 			break;
 		}
 		ft_bzero(buff, BUFF_SIZE);
 	}
-		(*ft_strchr(ret, '\n')) = '\0';
+		if(byter != 0)
+		{
+			(*ft_strchr(ret, '\n')) = '\0';
+		}
 
-		printf("%d, [%s]\n" ,i,ret);
+		printf("%d, [%s]\n" ,t,ret);
 		free(ret);
 
 	return (0);
@@ -67,4 +76,6 @@ int	main()
 	ft_GNLProto();
 	ft_GNLProto();
 	ft_GNLProto();
+	ft_GNLProto();
+
 }

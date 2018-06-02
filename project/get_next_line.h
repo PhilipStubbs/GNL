@@ -15,7 +15,15 @@
 # include "libft/libft.h"
 # include <fcntl.h>
 
-# define BUFF_SIZE 10
+# define BUFF_SIZE 1
+
+typedef	struct		a_list
+{
+	char			*overflow;
+	int				fd;
+	struct a_list	*next;
+}					g_list;
+
 int	get_next_line(const int fd, char **line);
 
 #endif
