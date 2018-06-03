@@ -14,14 +14,6 @@
 
 #include <stdio.h>
 
-// int	get_next_line(const int fd, char **line)
-// {
-// 	int ret;
-// 	char buf[(ret = read(fd, buf, BUFF_SIZ)) > 0];
-// }
-
-
-
 int    ft_GNLProto(int arc, char **arv)
 {
 	char buff[BUFF_SIZE + 1];
@@ -33,6 +25,7 @@ int    ft_GNLProto(int arc, char **arv)
 	int		t;
 	int 	count;
 	int 	len;
+	int		*temp;
 
 
 	i = 0;
@@ -53,8 +46,32 @@ int    ft_GNLProto(int arc, char **arv)
 	if (arc == 1)
 		node->fd = 1;
 
+
 	if(node->overflow)
-		ft_strcat(ret, node->overflow);
+	{
+		if(ft_strchr(node->overflow, '\n'))
+			{	
+				ft_strcat(ret, node->overflow);
+				i = ft_strchr_idx(ret, '\n');
+				ret[i] = '\0';
+				ft_memcpy(ret, node->overflow, i);
+
+
+				if (i < BUFF_SIZE)							// write the info back into the overflow
+				{	
+
+					ft_memcpy(buff, (node->overflow + i) +1, (BUFF_SIZE - i));
+					ft_memcpy(node->overflow, buff, (BUFF_SIZE - i));
+					// free(buff);
+					printf("[byter :%d], [count : %d] ,[i : %d],	[%s]\n" ,t,count ,i,ret);
+					return(0);
+				}
+
+				// printf("%s\n", node->overflow);
+			}
+		else
+			ft_strcat(ret, node->overflow);
+	}
 
 	if(!node->fd)
 		node->fd = open(arv[1], O_RDONLY);
@@ -78,7 +95,7 @@ int    ft_GNLProto(int arc, char **arv)
 	}
 
 	count *= BUFF_SIZE;
-	printf("[byter :%d], [count : %d] ,[i : %d],[%s]\n" ,t,count ,i,ret);
+	printf("[byter :%d], [count : %d] ,[i : %d],	[%s]\n" ,t,count ,i,ret);
 	if(node->overflow)
 		free(node->overflow);
 	node->overflow = (char*)ft_memalloc(sizeof(char)*(BUFF_SIZE) + 1);
@@ -100,10 +117,8 @@ int	main(int arc, char **arv)
 	ft_GNLProto(arc, arv);
 
 }
-// There once was a bunny named Humphrey
-// That lived in a house that was comfy
-// He was once a pet
-// With a knife he was met
+
+// There once was a bunny named Humphrey That lived in a house that was comfy He was once a pet With a knife he was met
 // And he was delicious
 
 // {
