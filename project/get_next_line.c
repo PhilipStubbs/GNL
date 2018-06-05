@@ -25,10 +25,7 @@ int		ft_GNLoverflow(char *ret, char *buff, g_list *node, char **line)
 			ft_strcat(ret, node->overflow);
 			i = ft_strchr_idx(ret, '\n');
 			ret[i] = '\0';
-			free(ret);
-			ret = ft_memalloc(i);
 			ft_memcpy(ret, node->overflow, i);
-			node->i += ft_strlen(ret);
 			if (i < BUFF_SIZE)					// write the info back into the overflow
 			{	
 				ft_memcpy(buff, (node->overflow + i) +1, (BUFF_SIZE - i));
@@ -44,11 +41,6 @@ int		ft_GNLoverflow(char *ret, char *buff, g_list *node, char **line)
 	return(0);	
 }
 
-// There once was a bunny named Humphrey
-// That lived in a house that was comfy
-// He was once a pet
-// With a knife he was met
-// And he was delicious
 
 int		ft_GNLReader(char *ret, char *buff, g_list *node)
 {
@@ -61,16 +53,14 @@ int		ft_GNLReader(char *ret, char *buff, g_list *node)
 	while ((byter = read(node->fd , buff, BUFF_SIZE )) > 0)
 	{
 		j++;
-		node->r +=byter;
 		// printf("%d\n",byter );
-		i +=byter;
 		ft_strcat(ret, buff);
 		if (ft_strchr(buff, '\n'))
 		{
 			break;
 		}
+		ft_bzero(buff, BUFF_SIZE +1);
 	}
-	node->lenread = i;
 
 	// printf("byter:  %d\n",byter);
 	if(j > 0)
@@ -84,26 +74,18 @@ int		ft_GNLReader(char *ret, char *buff, g_list *node)
 
 
 
-void		GNLrunthrough(char *ret, char *buff, g_list *node)
+void		GNLrunthrough(char *buff, g_list *node)
 {
+	char	*temp;
 
 	if(node->overflow)
 		free(node->overflow);
 	node->overflow = (char*)ft_memalloc(sizeof(char)*(BUFF_SIZE) + 1);
-	// node->i += ft_strlen(ret);
-
-		if (node->lenread%BUFF_SIZE != 0)
-		{
-			ret[node->r] = '\0';
-
-			printf("node->lenread  : %d  \n",node->lenread);
-			// printf("INSIDE len ; %zu  %s, \n",ft_strlen(ret) ,ret);
-
-		}
-	ft_memcpy(node->overflow, (ft_strsub(buff,(int)(ft_strchr_idx(buff , '\n')) +1,BUFF_SIZE )), 
-		(BUFF_SIZE - ft_strchr_idx(buff , '\n')) +1);
-
-
+	temp = ft_strsub(buff,(int)(ft_strchr_idx(buff , '\n')) ,BUFF_SIZE );
+	ft_memcpy(node->overflow, temp + 1, (BUFF_SIZE - ft_strchr_idx(buff , '\n')) +1);
+	free(temp);
+	// ft_memcpy(node->overflow, (ft_strsub(buff,(int)(ft_strchr_idx(buff , '\n')) +1,BUFF_SIZE )), 
+	// 	(BUFF_SIZE - ft_strchr_idx(buff , '\n')) +1);
 
 
 }
@@ -120,8 +102,6 @@ int    get_next_line(const int fd, char **line)
 {
 	static g_list *node;
 	char buff[BUFF_SIZE + 1];
-	int 	GNLR;
-	int		GNLO;
 	char	*ret;
 
 	if(!node)
@@ -129,19 +109,18 @@ int    get_next_line(const int fd, char **line)
 		node = (g_list*)ft_memalloc(sizeof(g_list));
 		node->i = 0;
 	}
-	node->i += 1;
 	ft_bzero(buff, BUFF_SIZE +1);
 	if(!line || fd <= -1 || !node)
 		return(-1);
 	ret = (char*)ft_memalloc((100 + BUFF_SIZE) * sizeof(char));
 	node->fd = fd;
-	if ((GNLO = ft_GNLoverflow(ret, buff, node, line)) == 1)
+	if ((node->GNLO = ft_GNLoverflow(ret, buff, node, line)) == 1)
 		return(1);
-	GNLR = ft_GNLReader(ret, buff, node);
-	GNLrunthrough(ret, buff, node);
+	node->GNLR = ft_GNLReader(ret, buff, node);
+	GNLrunthrough(buff, node);
 	*line = ft_strdup(ret);
 	free(ret);
-	if (GNLR == 0 && GNLO == 0)
+	if (node->GNLR == 0 && node->GNLO == 0)
 	{
 		node->overflow = NULL;
 		return (0);
@@ -178,8 +157,8 @@ int	main()
 	i = get_next_line(fd, line);
 	printf("%d : len : %zu [%s]\n",i ,ft_strlen(*line), *line);
 
-	// i = get_next_line(fd, line);
-	// printf("%d : len : %zu [%s]\n",i ,ft_strlen(*line), *line);
+	i = get_next_line(fd, line);
+	printf("%d : len : %zu [%s]\n",i ,ft_strlen(*line), *line);
 	// ft_bzero(*line,100 );
 
 	// i = get_next_line(fd, line);
