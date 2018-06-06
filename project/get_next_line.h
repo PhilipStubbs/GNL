@@ -14,18 +14,17 @@
 # define GET_NEXT_LINE_H
 # include "libft/libft.h"
 # include <fcntl.h>
-				// 10000000
-# define BUFF_SIZE 20
-//117 - 138
-typedef	struct		a_list
+# define BUFF_SIZE 30
+
+typedef	struct		s_line
 {
 	char			*overflow;
 	int				fd;
-	int				GNLR;
-	int				GNLO;
+	int				gnlr;
+	int				gnlo;
 	int				isbro;
-}					g_list;
+}					t_line;
 
-int	get_next_line(const int fd, char **line);
+int					get_next_line(const int fd, char **line);
 
 #endif
