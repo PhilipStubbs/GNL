@@ -15,7 +15,7 @@
 # include "libft/libft.h"
 # include <fcntl.h>
 				// 10000000
-# define BUFF_SIZE 1000000
+# define BUFF_SIZE 20
 //117 - 138
 typedef	struct		a_list
 {
@@ -23,7 +23,7 @@ typedef	struct		a_list
 	int				fd;
 	int				GNLR;
 	int				GNLO;
-	int				isfin;
+	int				isbro;
 }					g_list;
 
 int	get_next_line(const int fd, char **line);
