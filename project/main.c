@@ -21,11 +21,12 @@ int	main()
 	{	
 		count++;
 		i = get_next_line(fd, line);
-		printf("%d : len : %zu [%s]\n",i ,ft_strlen(*line), *line);
+		printf("%d: Buff: {%d}  len: %zu [%s]\n",i ,BUFF_SIZE,ft_strlen(*line), *line);
 	}
 	 end = clock();
 	printf("%lu\n",end );
 
+	return(0);
      // cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 }
