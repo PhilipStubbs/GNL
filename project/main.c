@@ -8,6 +8,7 @@ int	main()
 {
 
 	 clock_t start, end;
+	 double time_spent;
      
      start = clock();
 	int i;
@@ -24,9 +25,9 @@ int	main()
 		printf("%d: Buff: {%d}  len: %zu [%s]\n",i ,BUFF_SIZE,ft_strlen(*line), *line);
 	}
 	 end = clock();
-	printf("%lu\n",end );
+	
 
+	time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+ 	printf("%f\n",time_spent); 
 	return(0);
-     // cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-
 }

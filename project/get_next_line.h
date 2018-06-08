@@ -13,8 +13,9 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # include "libft/libft.h"
-# include <fcntl.h>//5000000
-# define BUFF_SIZE 50000
+# include <fcntl.h>
+# define BUFF_SIZE 1000000
+
 typedef	struct		s_line
 {
 	char			*overflow;
